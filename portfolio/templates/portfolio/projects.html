@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Personal Portfolio</title>
+        <link rel="stylesheet" href="static/portfolio/style.css">
+    </head>
+    <body>
+        <h1>My Projects</h1>
+        <div id="projects"></div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                fetch('/api/projects/')
+                .then(response => response.json())
+                .then(data => {const projectsDiv = document.getElementById('projects');
+                data.forEach(project => {
+                    const projectElement = document.createElement('div');
+                    projectElement.classList.add('project');
+                    const title = document.createElement('h2');
+                    title.textContent = project.title;
+                    projectElement.appendChild(title);
+                    const description = document.createElement('p');
+                    description.textContent = project.description;
+                    projectElement.appendChild(description);
+                    const technology = document.createElement('p')
+                    technology.textContent = 'Technology Used: ${project.technology_used}';
+                    projectElement.appendChild(technology);
+                    if (project.image_url) {
+                        const image = document.createElement('img');
+                        image.src = project.image_url;
+                        projectElement.appendChild(image);
+                    }
+                    projectsDiv.appendChild(projectElement);
+                });
+
+                });
+            
+            });
+        </script>
+        </body>
+        </html>
